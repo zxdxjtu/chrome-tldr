@@ -57,11 +57,11 @@ class ContentScript {
         { action: 'analyzeContent', content: content },
         (response) => {
           if (chrome.runtime.lastError) {
-            reject(new Error(chrome.runtime.lastError.message));
-          } else if (response.success) {
+            reject(new Error(`Connection failed: ${chrome.runtime.lastError.message}`));
+          } else if (response && response.success) {
             resolve(response.result);
           } else {
-            reject(new Error(response.error));
+            reject(new Error(response?.error || 'Unknown error occurred'));
           }
         }
       );
@@ -76,11 +76,11 @@ class ContentScript {
         { action: 'analyzeContent', content: selectionText },
         (response) => {
           if (chrome.runtime.lastError) {
-            reject(new Error(chrome.runtime.lastError.message));
-          } else if (response.success) {
+            reject(new Error(`Connection failed: ${chrome.runtime.lastError.message}`));
+          } else if (response && response.success) {
             resolve(response.result);
           } else {
-            reject(new Error(response.error));
+            reject(new Error(response?.error || 'Unknown error occurred'));
           }
         }
       );

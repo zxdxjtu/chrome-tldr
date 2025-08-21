@@ -192,6 +192,7 @@ class PopupUI {
           ">
             <option value="openai">OpenAI</option>
             <option value="azure">Azure OpenAI</option>
+            <option value="qwen">通义千问 (Qwen)</option>
             <option value="custom">Custom Endpoint</option>
           </select>
         </div>
@@ -338,6 +339,8 @@ class PopupUI {
         endpoint: apiEndpointEl.value,
         model: modelEl.value
       };
+
+      console.log('Saving config:', config);
 
       const response = await chrome.runtime.sendMessage({
         action: 'saveUserConfig',

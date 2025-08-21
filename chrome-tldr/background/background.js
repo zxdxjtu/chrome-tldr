@@ -66,6 +66,7 @@ class BackgroundService {
   async analyzeContent(content) {
     // 获取用户配置
     const config = await this.getUserConfig();
+    console.log('analyzeContent loaded config:', config);
     
     // 如果没有配置API密钥，则返回本地处理结果
     if (!config.apiKey) {
@@ -98,19 +99,23 @@ class BackgroundService {
   buildPrompt(content) {
     const contentText = typeof content === 'string' ? content : content.content;
     
-    return `Please analyze the following text and provide a summary in this exact format:
-Summary: [A brief summary of the content in one sentence]
-Key Points:
-- [Key point 1]
-- [Key point 2]
-- [Key point 3]
+    return `请分析以下文本内容，并按照指定格式提供摘要，请使用中文回答：
 
-Text to analyze:
+总结: [一句话概括内容要点]
+关键点:
+- [关键点1]
+- [关键点2]  
+- [关键点3]
+
+请分析的文本内容：
 ${contentText}`;
   }
 
   // 调用AI服务
   async callAIService(config, prompt) {
+    // 添加调试日志
+    console.log('callAIService config:', config);
+    
     // 确定API端点和头部信息
     let apiUrl, headers;
     
@@ -133,16 +138,29 @@ ${contentText}`;
         };
         break;
         
+      case 'qwen':
+        // 通义千问 DashScope API
+        apiUrl = config.endpoint || 'https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions';
+        headers = {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${config.apiKey}`
+        };
+        break;
+        
       case 'openai':
       default:
         // OpenAI格式
-        apiUrl = 'https://api.openai.com/v1/chat/completions';
+        apiUrl = config.endpoint || 'https://api.openai.com/v1/chat/completions';
         headers = {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${config.apiKey}`
         };
         break;
     }
+    
+    // 添加更多调试日志
+    console.log('Final apiUrl:', apiUrl);
+    console.log('Final headers:', headers);
     
     // 发送请求
     const response = await fetch(apiUrl, {
@@ -158,6 +176,12 @@ ${contentText}`;
     
     if (!response.ok) {
       const errorText = await response.text();
+      console.error('API request failed:', {
+        status: response.status,
+        statusText: response.statusText,
+        url: apiUrl,
+        errorText: errorText
+      });
       throw new Error(`API request failed with status ${response.status}: ${errorText}`);
     }
     
@@ -176,16 +200,16 @@ ${contentText}`;
     const keyPoints = [];
     
     for (const line of lines) {
-      if (line.startsWith('Summary:')) {
-        summary = line.substring(8).trim();
+      if (line.startsWith('总结:') || line.startsWith('Summary:')) {
+        summary = line.substring(line.indexOf(':') + 1).trim();
       } else if (line.startsWith('- ')) {
         keyPoints.push(line.substring(2).trim());
       }
     }
     
     return {
-      summary: summary || 'No summary available',
-      keyPoints: keyPoints.length > 0 ? keyPoints : ['No key points extracted'],
+      summary: summary || '暂无可用摘要',
+      keyPoints: keyPoints.length > 0 ? keyPoints : ['暂无提取到关键点'],
       keywords: [] // 可以在后续版本中实现关键词提取
     };
   }
