@@ -16,12 +16,16 @@ class PopupUI {
     const clearBtn = document.getElementById('clearBtn');
     const settingsBtn = document.getElementById('settingsBtn');
     const helpBtn = document.getElementById('helpBtn');
+    const jumpToContentBtn = document.getElementById('jumpToContentBtn');
+    const toggleModeBtn = document.getElementById('toggleModeBtn');
 
     // 绑定主界面事件
     if (analyzeBtn) analyzeBtn.addEventListener('click', () => this.analyzePage());
     if (clearBtn) clearBtn.addEventListener('click', () => this.clearHighlights());
     if (settingsBtn) settingsBtn.addEventListener('click', () => this.openSettings());
     if (helpBtn) helpBtn.addEventListener('click', () => this.showHelp());
+    if (jumpToContentBtn) jumpToContentBtn.addEventListener('click', () => this.jumpToContent());
+    if (toggleModeBtn) toggleModeBtn.addEventListener('click', () => this.toggleSidebarMode());
   }
 
   // 分析当前页面
@@ -378,6 +382,32 @@ class PopupUI {
   // 显示帮助信息
   showHelp() {
     alert('TLDR - Too Long, Do Read\n\n1. Click "Analyze Current Page" to summarize the content\n2. View key points in the popup or highlighted on the page\n3. Click "Clear Highlights" to remove highlights\n\nFor full functionality, configure your AI service API key in Settings.');
+  }
+
+  // 跳转到正文
+  async jumpToContent() {
+    try {
+      const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+      await chrome.tabs.sendMessage(tab.id, { action: 'jumpToContent' });
+      
+      // 关闭弹窗
+      window.close();
+    } catch (error) {
+      console.error('跳转正文失败:', error);
+    }
+  }
+
+  // 切换侧边栏模式
+  async toggleSidebarMode() {
+    try {
+      const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+      await chrome.tabs.sendMessage(tab.id, { action: 'toggleSidebarMode' });
+      
+      // 关闭弹窗
+      window.close();
+    } catch (error) {
+      console.error('切换侧边栏模式失败:', error);
+    }
   }
 }
 

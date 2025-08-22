@@ -3,9 +3,44 @@
 /* 高亮样式 */
 .tldr-highlight {
   background-color: #ffeb3b !important;
+  color: #333 !important;
   font-weight: bold !important;
   padding: 2px 4px !important;
   border-radius: 3px !important;
+  border: 1px solid #ffc107 !important;
+  transition: all 0.2s ease !important;
+  box-shadow: 0 1px 3px rgba(255, 193, 7, 0.3) !important;
+}
+
+.tldr-highlight:hover {
+  background-color: #ffc107 !important;
+  box-shadow: 0 2px 6px rgba(255, 193, 7, 0.5) !important;
+  transform: translateY(-1px) !important;
+}
+
+/* 不同类型的高亮 */
+.tldr-highlight.key-point {
+  background-color: #e3f2fd !important;
+  border-color: #2196f3 !important;
+  color: #1976d2 !important;
+}
+
+.tldr-highlight.data-point {
+  background-color: #e8f5e9 !important;
+  border-color: #4caf50 !important;
+  color: #388e3c !important;
+}
+
+.tldr-highlight.quote {
+  background-color: #f3e5f5 !important;
+  border-color: #9c27b0 !important;
+  color: #7b1fa2 !important;
+}
+
+.tldr-highlight.action-item {
+  background-color: #fff3e0 !important;
+  border-color: #ff9800 !important;
+  color: #f57c00 !important;
 }
 
 /* 浮动面板样式 */
@@ -94,4 +129,281 @@
 
 .tldr-key-points li:last-child {
   margin-bottom: 0 !important;
+}
+
+/* 视觉层次样式 */
+.tldr-low-importance {
+  transition: opacity 0.3s ease !important;
+}
+
+.tldr-medium-importance {
+  transition: opacity 0.3s ease !important;
+}
+
+.tldr-high-importance {
+  transition: all 0.3s ease !important;
+  box-shadow: 0 2px 4px rgba(33, 150, 243, 0.1) !important;
+}
+
+.tldr-important-section {
+  transition: all 0.3s ease !important;
+  border: 1px solid #e3f2fd !important;
+  position: relative !important;
+}
+
+.tldr-important-section::before {
+  content: "📌 重要" !important;
+  position: absolute !important;
+  top: -10px !important;
+  left: 8px !important;
+  background: #2196f3 !important;
+  color: white !important;
+  padding: 2px 6px !important;
+  border-radius: 10px !important;
+  font-size: 10px !important;
+  font-weight: bold !important;
+}
+
+/* 悬停效果 */
+.tldr-highlight:hover,
+.tldr-high-importance:hover {
+  transform: translateY(-1px) !important;
+}
+
+/* 动画效果 */
+@keyframes tldr-fadeIn {
+  from {
+    opacity: 0 !important;
+    transform: translateY(10px) !important;
+  }
+  to {
+    opacity: 1 !important;
+    transform: translateY(0) !important;
+  }
+}
+
+.tldr-highlight {
+  animation: tldr-fadeIn 0.3s ease !important;
+}
+
+.tldr-important-section {
+  animation: tldr-fadeIn 0.5s ease !important;
+}
+
+/* 侧边栏样式 */
+.tldr-sidebar {
+  position: fixed !important;
+  top: 0 !important;
+  right: 0 !important;
+  width: 400px !important;
+  height: 100vh !important;
+  background: white !important;
+  border-left: 2px solid #e0e0e0 !important;
+  box-shadow: -4px 0 12px rgba(0, 0, 0, 0.15) !important;
+  z-index: 10001 !important;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif !important;
+  overflow: hidden !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+.tldr-sidebar-header {
+  background: #f8f9fa !important;
+  padding: 16px !important;
+  border-bottom: 1px solid #e0e0e0 !important;
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+}
+
+.tldr-sidebar-header h3 {
+  margin: 0 !important;
+  font-size: 16px !important;
+  font-weight: 600 !important;
+  color: #333 !important;
+}
+
+.tldr-sidebar-controls {
+  display: flex !important;
+  gap: 8px !important;
+}
+
+.tldr-resize-btn {
+  background: #f1f3f4 !important;
+  border: none !important;
+  padding: 4px 8px !important;
+  border-radius: 4px !important;
+  cursor: ew-resize !important;
+  font-size: 14px !important;
+  color: #666 !important;
+}
+
+.tldr-resize-btn:hover {
+  background: #e8eaed !important;
+}
+
+.tldr-close-sidebar {
+  background: none !important;
+  border: none !important;
+  font-size: 20px !important;
+  cursor: pointer !important;
+  padding: 0 !important;
+  width: 24px !important;
+  height: 24px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  color: #666 !important;
+  border-radius: 4px !important;
+}
+
+.tldr-close-sidebar:hover {
+  background: #f1f3f4 !important;
+  color: #333 !important;
+}
+
+.tldr-sidebar-content {
+  padding: 16px !important;
+  flex: 1 !important;
+  overflow-y: auto !important;
+}
+
+.tldr-sidebar-content .tldr-summary h4,
+.tldr-sidebar-content .tldr-key-points h4,
+.tldr-sidebar-content .tldr-keywords h4 {
+  margin: 0 0 12px 0 !important;
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  color: #333 !important;
+}
+
+.tldr-sidebar-content .tldr-summary {
+  margin-bottom: 24px !important;
+}
+
+.tldr-sidebar-content .tldr-key-points {
+  margin-bottom: 24px !important;
+}
+
+.tldr-sidebar-content .tldr-keywords {
+  margin-bottom: 16px !important;
+}
+
+/* 关键词标签 */
+.tldr-keyword-tags {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 8px !important;
+}
+
+.tldr-keyword-tag {
+  background: #e3f2fd !important;
+  color: #1976d2 !important;
+  padding: 4px 8px !important;
+  border-radius: 12px !important;
+  font-size: 12px !important;
+  font-weight: 500 !important;
+  border: 1px solid #bbdefb !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+}
+
+.tldr-keyword-tag:hover {
+  background: #bbdefb !important;
+  transform: translateY(-1px) !important;
+}
+
+/* 浮动面板中的关键词 */
+.tldr-panel-content .tldr-keywords {
+  margin-top: 16px !important;
+}
+
+.tldr-panel-content .tldr-keywords h4 {
+  margin: 0 0 8px 0 !important;
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  color: #333 !important;
+}
+
+/* 切换控制按钮 */
+.tldr-toggle-controls {
+  margin-top: 20px !important;
+  padding-top: 16px !important;
+  border-top: 1px solid #e0e0e0 !important;
+  display: flex !important;
+  gap: 8px !important;
+  flex-wrap: wrap !important;
+}
+
+.tldr-toggle-btn {
+  background: #f1f3f4 !important;
+  color: #333 !important;
+  border: 1px solid #dadce0 !important;
+  padding: 6px 12px !important;
+  border-radius: 16px !important;
+  font-size: 12px !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+}
+
+.tldr-toggle-btn:hover {
+  background: #e8eaed !important;
+  transform: translateY(-1px) !important;
+}
+
+.tldr-toggle-btn:active {
+  background: #dadce0 !important;
+  transform: translateY(0) !important;
+}
+
+/* 关键词提示框 */
+.tldr-keyword-tooltip {
+  position: fixed !important;
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  background: white !important;
+  border: 1px solid #ddd !important;
+  border-radius: 8px !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2) !important;
+  z-index: 10002 !important;
+  max-width: 300px !important;
+  animation: tldr-fadeIn 0.3s ease !important;
+}
+
+.tldr-tooltip-content {
+  padding: 16px !important;
+}
+
+.tldr-tooltip-content h4 {
+  margin: 0 0 8px 0 !important;
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  color: #333 !important;
+}
+
+.tldr-tooltip-content p {
+  margin: 0 0 12px 0 !important;
+  font-size: 13px !important;
+  color: #666 !important;
+  line-height: 1.4 !important;
+}
+
+.tldr-tooltip-close {
+  background: #1a73e8 !important;
+  color: white !important;
+  border: none !important;
+  padding: 4px 12px !important;
+  border-radius: 4px !important;
+  font-size: 12px !important;
+  cursor: pointer !important;
+}
+
+.tldr-tooltip-close:hover {
+  background: #0d62d0 !important;
+}
+
+/* 层次禁用状态 */
+.tldr-hierarchy-disabled {
+  transition: all 0.3s ease !important;
 }

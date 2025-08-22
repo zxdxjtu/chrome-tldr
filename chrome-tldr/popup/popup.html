@@ -16,6 +16,18 @@
     .header {
       text-align: center;
       margin-bottom: 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .header .logo {
+      width: 48px;
+      height: 48px;
+      border-radius: 8px;
+      margin-bottom: 8px;
+      object-fit: cover;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     }
 
     .header h1 {
@@ -159,6 +171,7 @@
 </head>
 <body>
   <div class="header">
+    <img src="../assets/logo.jpg" alt="TLDR Logo" class="logo">
     <h1>TLDR - Too Long, Do Read</h1>
     <p>AI-powered content summarization</p>
   </div>
@@ -180,8 +193,13 @@
   </div>
 
   <div class="quick-actions">
+    <button class="btn btn-secondary" id="jumpToContentBtn">跳转正文</button>
     <button class="btn btn-secondary" id="settingsBtn">Settings</button>
+  </div>
+  
+  <div class="quick-actions">
     <button class="btn btn-secondary" id="helpBtn">Help</button>
+    <button class="btn btn-secondary" id="toggleModeBtn">侧边栏模式</button>
   </div>
 
   <div class="result" id="result" style="display: none;">
